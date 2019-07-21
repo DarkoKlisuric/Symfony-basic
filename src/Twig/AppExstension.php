@@ -15,6 +15,7 @@ class AppExstension extends AbstractExtension
         ];
     }
 
+
     public  function priceFilter($number)
     {
         return '$'.number_format($number , 2 , ',' , ',');
