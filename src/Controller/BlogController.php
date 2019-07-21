@@ -64,11 +64,13 @@ class BlogController
         $posts = $this->session->get('posts');
         $posts[uniqid()] = [
             'title' => 'A radnom title' . rand(1, 500),
-            'text' => 'Some radnom text' . rand(1, 600)
+            'text' => 'Some radnom text' . rand(1, 600),
         ];
         $this->session->set('posts', $posts);
 
         return new RedirectResponse($this->router->generate('blog_index'));
+
+
     }
 
     /**
