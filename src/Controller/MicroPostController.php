@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\MicroPostRepository;
-use http\Env\Response;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
