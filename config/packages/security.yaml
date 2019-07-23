@@ -1,17 +1,35 @@
 security:
+    encoders:
+        App\Entity\User: bcrypt
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
     providers:
-        in_memory: { memory: ~ }
+        database_users:
+            entity: {class: App\Entity\User , property: username }
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
             anonymous: true
+            pattern: ^/
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
 
+            form_login:
+                check_path: security_login
+                login_path: security_login
+                csrf_token_generator: security.csrf.token_manager
+                default_target_path: micro_post_index
+                # always_use_default_target_path: false
+                # use_referer: true
+                # failure_path:
+                # username_parameter: _username
+                # password_parameter: _password
+            logout:
+                path: security_logout
+                target: micro_post_index
             # https://symfony.com/doc/current/security/impersonating_user.html
             # switch_user: true
 
