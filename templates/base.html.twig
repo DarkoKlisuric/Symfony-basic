@@ -10,9 +10,42 @@
     {% endblock %}
 </head>
 <body class="bg-light">
+<nav class="navbar navbar-dark navbar-expand-md sticky-top bg-dark p-0">
+    <a class="navbar-brand col-sm-3 col-md-2 mr-0"
+       href="{{ path('micro_post_index') }}" >Micro Post App
+    </a>
+    <div class="w-100 order-1 order-md-0">
+        <ul class="navbar-nav px-3">
+            {% if is_granted('ROLE_USER') %}
+                <li class="nav-item text-nowrap">
+                    <a class="nav-link" href="{{ path('micro_post_add') }}">Dodaj novi</a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+
+    <div class="order-2 order-md-1">
+        <ul class="navbar-nav px-3">
+            {% if is_granted('ROLE_USER') %}
+                <li class="nav-item text-nowrap">
+                    <a class="nav-link"
+                       href="#">{{ app.user.fullName }}</a>
+                </li>
+                <li class="nav-item text-nowrap">
+                    <a class="nav-link"
+                       href="{{ path('security_logout') }}">Odjavi se</a>
+                </li>
+            {% else %}
+                <li class="nav-item text-nowrap">
+                    <a class="nav-link"
+                       href="{{ path('security_login') }}">Prijavi se</a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
 <main role="main" class="container">
     <div class="my-3 p-3 bg-white rounded box-shadow">
-        <h6 class="border-bottom border-gray pb-2 mb-0">Recent updates</h6>
         {% block body %}{% endblock %}
     </div>
 </main>

@@ -41,7 +41,7 @@ class RegisterController extends Controller
             $em->persist($user);
             $em->flush();
 
-            return $this->redirectToRoute('micro_post_index');
+            return $this->redirectToRoute('security_login');
         }
 
         return $this->render('register/register.html.twig', [
