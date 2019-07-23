@@ -6,13 +6,16 @@ use App\Entity\MicroPost;
 use App\Form\MicroPostType;
 use App\Repository\MicroPostRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Flash\FlashBagInterface;
+use Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\RouterInterface;
+use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 
 /**
  * @Route("/micro-post")
@@ -43,6 +46,10 @@ class MicroPostController
      * @var FlashBagInterface
      */
     private $bag;
+    /**
+     * @var AuthorizationCheckerInterface
+     */
+    private $authorizationChecker;
 
     public function __construct(
         \Twig_Environment $twig ,
@@ -50,7 +57,8 @@ class MicroPostController
         FormFactoryInterface $formFactory,
         EntityManagerInterface $entityManager,
         RouterInterface $router,
-        FlashBagInterface $bag)
+        FlashBagInterface $bag,
+        AuthorizationCheckerInterface $authorizationChecker)
     {
         $this->twig = $twig;
         $this->microPostRepository = $microPostRepository;
@@ -58,6 +66,7 @@ class MicroPostController
         $this->entityManager = $entityManager;
         $this->router = $router;
         $this->bag = $bag;
+        $this->authorizationChecker = $authorizationChecker;
     }
 
 
@@ -77,9 +86,18 @@ class MicroPostController
      * @param MicroPost $microPost
      * @param Request $request
      * @Route("/edit/{id}" , name="micro_post_edit")
+     * @Security("is_granted('edit' , microPost)" , message="Nemate pristup!")
      */
     public function edit(MicroPost $microPost , Request $request)
     {
+        //$this->denyUnlessGranted('edit' , $microPost);
+        //OVO KORITSTIMO AKO EXTENDAMO Controller
+
+
+        //if(!$this->authorizationChecker->isGranted('edit' , $microPost)){
+          //  throw new UnauthorizedHttpException();
+        //}
+        //OVO KORISTIM AKO Controller NIJE EXTEND-AN TE INJECTAMO AuthorizationCheckerInterface U __Consturct
         $form = $this->formFactory->create(
             MicroPostType::class,
             $microPost
@@ -103,6 +121,7 @@ class MicroPostController
     /**
      * @param MicroPost $microPost
      * @Route("delete/{id}" , name="micro_post_delete")
+     * @Security("is_granted('delete' , microPost)" , message="Nemate pristup")
      */
     public function delete(MicroPost $microPost)
     {

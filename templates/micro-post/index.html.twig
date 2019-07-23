@@ -10,9 +10,12 @@
 
     {% for post in posts %}
         <small class="d-block text-right mt-3">
+            {% if is_granted('edit' , post) %}
             <a href="{{ path ('micro_post_edit',{'id': post.id})  }}">Uredi</a>
+            {% endif %}
+            {% if is_granted('delete' , post) %}
             <a href="{{ path ('micro_post_delete',{'id': post.id})  }}">Izbriši</a>
-
+            {% endif %}
         </small>
         <a href="{{ path('micro_post_post' , {'id': post.id}) }}">
             {{ include('micro-post/raw-post.html.twig' , {'post' : post}) }}
