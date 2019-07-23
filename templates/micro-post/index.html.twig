@@ -1,13 +1,25 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    {% for post in posts %}
-        <div class="media text-muted pt-3">
-            <img data-src="holder.js/32x32?text=MJ&bg=e83e8c&fg=fff&size=8" alt="" class="mr-2 rounded">
-                <p class="media-body pb-3 mb-0 small lh-125 border-bottom border-gray">
-                    <span class="d-block"><strong class="text-gray-dark">@username</strong></span><small> {{ post.time|date }}</small>
-                {{ post.text }}
-                </p>
+    {% for message in app.flashes('notice') %}
+        <div class="alert alert-success">
+            {{ message }}
         </div>
     {% endfor %}
+    <small class="d-block text-right mt-3">
+        <a href="{{ path ('micro_post_add') }}">Add new</a>
+    </small>
+    {% for post in posts %}
+        <small class="d-block text-right mt-3">
+            <a href="{{ path ('micro_post_edit',{'id': post.id})  }}">Edit</a>
+            <a href="{{ path ('micro_post_delete',{'id': post.id})  }}">Delete</a>
+
+        </small>
+        <a href="{{ path('micro_post_post' , {'id': post.id}) }}">
+            {{ include('micro-post/raw-post.html.twig' , {'post' : post}) }}
+        </a>
+
+
+    {% endfor %}
+
 {% endblock %}

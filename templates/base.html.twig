@@ -3,22 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>{% block title %}Welcome!{% endblock %}</title>
+
     {% block stylesheets %}
+        <link rel="stylesheet" href="https://bootswatch.com/4/journal/bootstrap.min.css">
         <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
     {% endblock %}
 </head>
 <body class="bg-light">
-
 <main role="main" class="container">
     <div class="my-3 p-3 bg-white rounded box-shadow">
         <h6 class="border-bottom border-gray pb-2 mb-0">Recent updates</h6>
-
-        {% block body %}
-        {% endblock %}
-
-        <small class="d-block text-right mt-3">
-            <a href="#">All updates</a>
-        </small>
+        {% block body %}{% endblock %}
     </div>
 </main>
 {% block javascripts %}
