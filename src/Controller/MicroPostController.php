@@ -75,11 +75,18 @@ class MicroPostController
     /**
      * @Route("/" , name="micro_post_index")
      */
-    public function index()
+    public function index(TokenStorageInterface $tokenStorage)
     {
+        $currentUser = $tokenStorage->getToken()->getUser();
+
+        if($currentUser instanceof User){
+            $posts = $this->microPostRepository->findAllByUsers($currentUser->getFollowing());
+        }else{
+            $posts  = $this->microPostRepository->findBy([] , ['time' => 'DESC']);
+        }
         $html = $this->twig->render('micro-post/index.html.twig' ,
             [
-                'posts' =>$this->microPostRepository->findBy([] , ['time' => 'DESC'])
+                'posts' =>$posts
             ]);
         return new Response($html);
     }
