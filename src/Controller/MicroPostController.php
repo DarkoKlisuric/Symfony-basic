@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\MicroPost;
+use App\Entity\User;
 use App\Form\MicroPostType;
 use App\Repository\MicroPostRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -147,7 +148,7 @@ class MicroPostController
         $user = $tokenStorage->getToken()->getUser();
 
         $microPost = new MicroPost();
-        $microPost->setTime(new \DateTime());
+        //$microPost->setTime(new \DateTime());
         $microPost->setUser($user);
 
         $form = $this->formFactory->create(MicroPostType::class , $microPost);
@@ -163,6 +164,21 @@ class MicroPostController
             $this->twig->render('micro-post/add.html.twig' ,
                 ['form' =>$form->createView()])
         );
+    }
+
+    /**
+     * @Route("/user/{username}" , name="micro_post_user")
+     */
+    public function userPosts(User $user)
+    {
+        $html = $this->twig->render('micro-post/index.html.twig' ,
+            [
+                // 'posts' =>$this->microPostRepository->findBy(['user' =>$user] , ['time' => 'DESC'])
+
+                /*LAZY LOADING -> */ /*NECE BITI SORTIRANO */
+                'posts' => $user ->getPosts()
+            ]);
+        return new Response($html);
     }
 
     /**

@@ -17,9 +17,8 @@
             <a href="{{ path ('micro_post_delete',{'id': post.id})  }}">Izbriši</a>
             {% endif %}
         </small>
-        <a href="{{ path('micro_post_post' , {'id': post.id}) }}">
             {{ include('micro-post/raw-post.html.twig' , {'post' : post}) }}
-        </a>
+
 
 
     {% endfor %}
