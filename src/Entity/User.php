@@ -62,6 +62,7 @@ class User implements UserInterface , \Serializable
         $this->posts = new ArrayCollection();
         $this->followers = new ArrayCollection();
         $this->following = new  ArrayCollection();
+        $this->postsLiked = new ArrayCollection();
     }
 
     /**
@@ -88,6 +89,11 @@ class User implements UserInterface , \Serializable
      * @ORM\Column(type="simple_array")
      */
     private $roles;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\MicroPost" , mappedBy="likedBy")
+     */
+    private $postsLiked;
 
 
     public function getId(): ?int
@@ -126,8 +132,6 @@ class User implements UserInterface , \Serializable
 
     public function eraseCredentials()
     {
-
-
     }
 
     public function serialize()
@@ -242,6 +246,15 @@ class User implements UserInterface , \Serializable
         }
         $this->getFollowing()->add($user);
     }
+
+    /**
+     * @return Collection
+     */
+    public function getPostsLiked()
+    {
+        return $this->postsLiked;
+    }
+
 
 
 

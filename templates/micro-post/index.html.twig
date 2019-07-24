@@ -9,11 +9,10 @@
 
     {% if usersToFollow|length > 0  %}
         <p>Za sada nikoga ne pratite,</p>
-        <p>Popis nekih korisnika:</p>
 
 
         {% for userToFollow in usersToFollow %}
-            <a href="{{ path('following_follow' , {'id': userToFollow.id}) }}">@{{ userToFollow.username }}</a>
+            Prati: <a href="{{ path('following_follow' , {'id': userToFollow.id}) }}">@{{ userToFollow.username }}</a>
             <hr />
         {% endfor %}
     {% else %}
