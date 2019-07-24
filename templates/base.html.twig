@@ -5,7 +5,7 @@
     <title>{% block title %}Welcome!{% endblock %}</title>
 
     {% block stylesheets %}
-        <link rel="stylesheet" href="https://bootswatch.com/4/journal/bootstrap.min.css">
+        <link rel="stylesheet" href="https://bootswatch.com/4/lux/bootstrap.min.css">
         <link rel="stylesheet" href="{{ asset('build/css/app.css') }}">
     {% endblock %}
 </head>
@@ -29,7 +29,7 @@
             {% if is_granted('ROLE_USER') %}
                 <li class="nav-item text-nowrap">
                     <a class="nav-link"
-                       href="#">{{ app.user.fullName }}</a>
+                       href="{{ path('micro_post_user' , {'username': app.user.username}) }}">{{ app.user.fullName }}</a>
                 </li>
                 <li class="nav-item text-nowrap">
                     <a class="nav-link"
